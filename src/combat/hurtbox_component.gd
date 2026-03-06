@@ -1,25 +1,26 @@
 extends Area2D
-class_name HitboxComponent
+class_name HurtboxComponent
 
 # =============================================================================
-# HITBOX COMPONENT
-# Attached to anything that DEALS damage — weapons, projectiles, traps.
-# When it overlaps a HurtboxComponent, it emits a signal with damage info.
-# What happens next is the hurtbox owner's responsibility.
+# HURTBOX COMPONENT
+# Attached to anything that CAN RECEIVE damage — characters, destructibles.
+# Listens for incoming HitboxComponents and routes damage to its owner entity.
 #
 # Usage:
-#   - Add as child node to any attacking entity or weapon
-#   - Set damage value via export or at runtime
-#   - Connect to hit signal if local handling is needed
-#   - Everything else routes through EventBus
+#   - Add as child node to any entity that can take damage
+#   - Assign entity_owner to the Entity node that owns this hurtbox
+#   - Damage flows: Hitbox → Hurtbox → entity_owner.take_damage()
 # =============================================================================
 
 
 # -----------------------------------------------------------------------------
 # EXPORTS
 # -----------------------------------------------------------------------------
-@export var damage: float = 10.0
-@export var knockback_force: float = 0.0
+
+## The Entity node that owns this hurtbox and will receive damage calls.
+@export var entity_owner: Entity
+
+@export var defense_multiplier: float = 1.0  # 1.0 = full damage, 0.5 = half
 @export var enabled: bool = true
 
 
@@ -27,8 +28,8 @@ class_name HitboxComponent
 # SIGNALS
 # -----------------------------------------------------------------------------
 
-## Emitted when this hitbox overlaps a valid hurtbox.
-signal hit(hurtbox: HurtboxComponent, damage: float)
+## Emitted when damage is received, before applying to entity.
+signal damaged(amount: float, source: HitboxComponent)
 
 
 # -----------------------------------------------------------------------------
@@ -45,15 +46,20 @@ func _ready() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if not enabled:
 		return
-	if not area is HurtboxComponent:
-		return
-	# Don't hit hurtboxes owned by the same parent
-	if area.get_owner() == get_owner():
+	if not area is HitboxComponent:
 		return
 
-	var hurtbox := area as HurtboxComponent
-	hit.emit(hurtbox, damage)
-	EventBus.hitbox_entered.emit(self, hurtbox)
+	var hitbox := area as HitboxComponent
+	if not hitbox.enabled:
+		return
+
+	var final_damage := hitbox.damage * defense_multiplier
+	damaged.emit(final_damage, hitbox)
+
+	if entity_owner:
+		entity_owner.take_damage(final_damage, hitbox.get_owner())
+	else:
+		push_warning("[HurtboxComponent] No entity_owner assigned on: %s" % get_parent().name)
 
 
 # -----------------------------------------------------------------------------
