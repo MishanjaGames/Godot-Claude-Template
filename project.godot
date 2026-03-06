@@ -18,6 +18,11 @@ config/icon="res://assets/icon.svg"
 
 buses/default_bus_layout="uid://c28o02kwfcv8v"
 
+[autoload]
+
+EventBus="*uid://dvolheo4dao6v"
+GameManager="*uid://cgdxwxnnc6nle"
+
 [display]
 
 window/size/viewport_width=1280
