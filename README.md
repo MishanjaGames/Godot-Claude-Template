@@ -1,4 +1,4 @@
-# Godot-Cluade-Template
+# Godot-Claude-Template
 
 > 2D Isometric Survival RPG Template built in Godot 4.6 by using HELP from Claude
 
