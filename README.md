@@ -1,6 +1,7 @@
-# Godot-Claude-Template
+# Godot Core Template
 
-> 2D Isometric Survival RPG Template built in Godot 4.6 by using HELP from Claude
+> A reusable, extensible 2D/3D game foundation built in Godot 4.6.
+> Designed to serve as a solid base for future projects — survival RPGs, action games, or anything in between.
 
 ---
 
@@ -9,10 +10,10 @@
 | | |
 |---|---|
 | **Engine** | Godot 4.6 (Steam) |
-| **Style** | 2D Isometric |
-| **Renderer** | Mobile(for now) |
+| **Style** | 2D (isometric-ready) |
+| **Renderer** | Mobile (expandable) |
 | **Language** | GDScript |
-| **Version Control** | Git/Github |
+| **Version Control** | Git/GitHub |
 
 ---
 
@@ -56,28 +57,33 @@ res://
 
 ## 🗺️ Roadmap
 
-### 🔵 Phase 1 — The Core Loop
-- [ ] Player movement (isometric 8-directional)
-- [ ] Basic combat (melee hit detection, health, death)
-- [ ] Inventory system (slot/grid-based, item data via Resources)
+### 🔵 Phase 1 — Core Architecture
+- [ ] EventBus autoload (global signal routing)
+- [ ] GameManager autoload (scene management, global state)
+- [ ] Entity base class (root of all game objects)
+- [ ] CharacterBase class (movement, stats — extends Entity)
+- [ ] Hitbox / Hurtbox components (reusable combat skeleton)
+- [ ] Base Resource structures (StatData, ItemData stubs)
+
+### 🟡 Phase 2 — Gameplay Foundation
+- [ ] Player controller (input, movement, camera)
+- [ ] Basic combat (melee, health, death)
+- [ ] Inventory system (slot/grid-based)
+- [ ] UI framework (HUD, menus, scene transitions)
 - [ ] Day-night cycle (world clock + dynamic lighting)
 
-### 🟡 Phase 2 — Depth Systems
-- [ ] Crafting / Building (recipe system tied to inventory)
-- [ ] Weapon crafting flexibility (modular weapon data: base + materials)
-- [ ] Skill trees / Progression (XP, stat nodes)
-- [ ] Weapon enchantments & improvements (enchant slots, rarity, upgrade paths)
-- [ ] Player characteristics (stackable modifier system — buffs/debuffs, trinkets, blessings/curses)
+### 🔴 Phase 3 — Extension Layer *(project-specific)*
+- [ ] Crafting / Building system
+- [ ] Skill trees / Progression
+- [ ] Procedural world generation
+- [ ] Quests / Dialogue system
+- [ ] Survival mechanics (hunger, thirst, needs)
 
-### 🔴 Phase 3 — World & Advanced Systems
-- [ ] Hunger / Thirst / Needs (timer-based stat drain)
-- [ ] Open world / Exploration — Procedural generation (chunk-based tilemap)
-- [ ] Quests / Dialogue (dialogue trees, quest state machine)
+> Phase 3 represents features to be added per-project on top of this template.
 
 ---
-## Tips for myself
 
-### ⚙️ Project Settings
+## ⚙️ Project Settings
 
 | Setting | Value |
 |---|---|
@@ -86,7 +92,9 @@ res://
 | Stretch Aspect | `keep` |
 | Snap 2D Vertices to Pixel | `ON` |
 
-### Physics Layers
+---
+
+## 🎛️ Physics Layers
 
 | Layer | Name |
 |---|---|
@@ -97,7 +105,9 @@ res://
 | 5 | `hitbox` |
 | 6 | `hurtbox` |
 
-### Audio Buses
+---
+
+## 🔊 Audio Buses
 
 | Bus | Purpose |
 |---|---|
@@ -106,7 +116,9 @@ res://
 | SFX | World & combat sounds |
 | UI | Interface sounds |
 
-### 🌿 Branching Strategy
+---
+
+## 🌿 Branching Strategy
 
 | Branch | Purpose |
 |---|---|
